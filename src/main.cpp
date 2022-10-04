@@ -21,13 +21,15 @@ void printSerialNumber(uint16_t serial0, uint16_t serial1, uint16_t serial2) {
     printUint16Hex(serial2);
     Serial.println();
 }
+
 void setup()
 {
   radar.SerialInit();
   Serial.begin(115200);
   delay(1500);
   Serial.println("Readly");
-   Wire.begin();
+   
+  Wire.begin();
 
     uint16_t error;
     char errorMessage[256];
