@@ -21,14 +21,27 @@ void printSerialNumber(uint16_t serial0, uint16_t serial1, uint16_t serial2) {
     printUint16Hex(serial2);
     Serial.println();
 }
-void setup()
-{
-  radar.SerialInit();
-  Serial.begin(115200);
-  delay(1500);
-  Serial.println("Readly");
-   Wire.begin();
 
+void radarInit() {
+    radar.SerialInit();
+}
+
+void radarLoop() {
+    radar.recvRadarBytes();                       //Receive radar data and start processing
+        if (radar.newData == true) {                  //The data is received and transferred to the new list dataMsg[]
+    byte dataMsg[radar.dataLen+3] = {0x00};
+    dataMsg[0] = 0x53;                         //Add the header frame as the first element of the array
+    for (byte n = 0; n < radar.dataLen; n++)dataMsg[n+1] = radar.Msg[n];  //Frame-by-frame transfer
+    dataMsg[radar.dataLen+1] = 0x54;
+    dataMsg[radar.dataLen+2] = 0x43;
+    radar.newData = false;                     //A complete set of data frames is saved
+    
+    //radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
+    radar.Fall_Detection(dataMsg);         //Use radar built-in algorithm to output human motion status
+  }
+}
+
+void scdInit() {
     uint16_t error;
     char errorMessage[256];
 
@@ -66,22 +79,8 @@ void setup()
 
 }
 
-void loop()
-{
- radar.recvRadarBytes();                       //Receive radar data and start processing
- if (radar.newData == true) {                  //The data is received and transferred to the new list dataMsg[]
-    byte dataMsg[radar.dataLen+3] = {0x00};
-    dataMsg[0] = 0x53;                         //Add the header frame as the first element of the array
-    for (byte n = 0; n < radar.dataLen; n++)dataMsg[n+1] = radar.Msg[n];  //Frame-by-frame transfer
-    dataMsg[radar.dataLen+1] = 0x54;
-    dataMsg[radar.dataLen+2] = 0x43;
-    radar.newData = false;                     //A complete set of data frames is saved
-    
-    //radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
-    radar.Fall_Detection(dataMsg);         //Use radar built-in algorithm to output human motion status
-  }
-  
-   uint16_t error;
+void scdLoop() {
+    uint16_t error;
     char errorMessage[256];
 
     delay(5000);
@@ -107,4 +106,20 @@ void loop()
         Serial.print("Humidity:");
         Serial.println(humidity);
     }
+}
+
+void setup()
+{
+    Serial.begin(115200);
+    delay(1500);
+    Serial.println("Readly");
+    radarInit();
+    Wire.begin();
+    scd4xInit(); 
+}
+
+void loop()
+{
+    radarLoop();   
+    scdLoop();
 }
