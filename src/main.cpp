@@ -41,7 +41,7 @@ void radarLoop() {
   }
 }
 
-void scdInit() {
+void scd4xInit() {
     uint16_t error;
     char errorMessage[256];
 
@@ -79,7 +79,7 @@ void scdInit() {
 
 }
 
-void scdLoop() {
+void scd4xLoop() {
     uint16_t error;
     char errorMessage[256];
 
@@ -112,7 +112,7 @@ void setup()
 {
     Serial.begin(115200);
     delay(1500);
-    Serial.println("Readly");
+    Serial.println("Start sensors init ");
     radarInit();
     Wire.begin();
     scd4xInit(); 
@@ -121,5 +121,5 @@ void setup()
 void loop()
 {
     radarLoop();   
-    scdLoop();
+    scd4xLoop();
 }
