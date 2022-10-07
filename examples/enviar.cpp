@@ -26,7 +26,7 @@ void printSerialNumber(uint16_t serial0, uint16_t serial1, uint16_t serial2) {
 
 // EspNow sender
 // REPLACE WITH THE RECEIVER'S MAC Address
-uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+uint8_t broadcastAddress[] = {0xC8, 0xC9, 0xA3, 0xFB, 0xED, 0xE0};
 
 // Structure example to send data
 // Must match the receiver structure
