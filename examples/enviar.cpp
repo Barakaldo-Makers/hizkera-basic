@@ -48,14 +48,8 @@ void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
 }
 
-void setup()
-{
-  radar.SerialInit();
-  Serial.begin(115200);
-  delay(1500);
-  Serial.println("Readly");
-   
-    // Set device as a Wi-Fi Station
+void EspNowInit() {
+  // Set device as a Wi-Fi Station
   WiFi.mode(WIFI_STA);
   // Init ESP-NOW
   if (esp_now_init() != ESP_OK) {
@@ -74,9 +68,45 @@ void setup()
     Serial.println("Failed to add peer");
     return;
   }
+}
 
-    Wire.begin();
+void  EspNowLoop() {
+// Set values to send
+  myData.id = 1;
+  myData.x = random(0,50);
+  myData.y = random(0,50);
+  // Send message via ESP-NOW
+  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
+  if (result == ESP_OK) {
+    Serial.println("Sent with success");
+  }
+  else {
+    Serial.println("Error sending the data");
+  }
+  delay(10000);
 
+}
+
+void radarInit() {
+    radar.SerialInit();
+}
+
+void radarLoop() {
+    radar.recvRadarBytes();                       //Receive radar data and start processing
+        if (radar.newData == true) {                  //The data is received and transferred to the new list dataMsg[]
+    byte dataMsg[radar.dataLen+3] = {0x00};
+    dataMsg[0] = 0x53;                         //Add the header frame as the first element of the array
+    for (byte n = 0; n < radar.dataLen; n++)dataMsg[n+1] = radar.Msg[n];  //Frame-by-frame transfer
+    dataMsg[radar.dataLen+1] = 0x54;
+    dataMsg[radar.dataLen+2] = 0x43;
+    radar.newData = false;                     //A complete set of data frames is saved
+    
+    //radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
+    radar.Fall_Detection(dataMsg);         //Use radar built-in algorithm to output human motion status
+  }
+}
+
+void scd4xInit() {
     uint16_t error;
     char errorMessage[256];
 
@@ -114,22 +144,8 @@ void setup()
 
 }
 
-void loop()
-{
- radar.recvRadarBytes();                       //Receive radar data and start processing
- if (radar.newData == true) {                  //The data is received and transferred to the new list dataMsg[]
-    byte dataMsg[radar.dataLen+3] = {0x00};
-    dataMsg[0] = 0x53;                         //Add the header frame as the first element of the array
-    for (byte n = 0; n < radar.dataLen; n++)dataMsg[n+1] = radar.Msg[n];  //Frame-by-frame transfer
-    dataMsg[radar.dataLen+1] = 0x54;
-    dataMsg[radar.dataLen+2] = 0x43;
-    radar.newData = false;                     //A complete set of data frames is saved
-    
-    //radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
-    radar.Fall_Detection(dataMsg);         //Use radar built-in algorithm to output human motion status
-  }
-  
-   uint16_t error;
+void scd4xLoop() {
+    uint16_t error;
     char errorMessage[256];
 
     delay(5000);
@@ -155,19 +171,54 @@ void loop()
         Serial.print("Humidity:");
         Serial.println(humidity);
     }
+}
 
-// Set values to send
-  myData.id = 1;
-  myData.x = random(0,50);
-  myData.y = random(0,50);
-  // Send message via ESP-NOW
-  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
-  if (result == ESP_OK) {
-    Serial.println("Sent with success");
-  }
-  else {
-    Serial.println("Error sending the data");
-  }
-  delay(10000);
+void setup()
+{
+  Serial.begin(115200);
+  delay(1500);
+  Serial.println("Readly");
+  EspNowInit();
+  radarInit();
+  Wire.begin();
+  scd4xInit(); 
+  
+    uint16_t error;
+    char errorMessage[256];
 
+    scd4x.begin(Wire);
+
+    // stop potentially previously started measurement
+    error = scd4x.stopPeriodicMeasurement();
+    if (error) {
+        Serial.print("Error trying to execute stopPeriodicMeasurement(): ");
+        errorToString(error, errorMessage, 256);
+        Serial.println(errorMessage);
+    }
+    uint16_t serial0;
+    uint16_t serial1;
+    uint16_t serial2;
+    error = scd4x.getSerialNumber(serial0, serial1, serial2);
+    if (error) {
+        Serial.print("Error trying to execute getSerialNumber(): ");
+        errorToString(error, errorMessage, 256);
+        Serial.println(errorMessage);
+    } else {
+        printSerialNumber(serial0, serial1, serial2);
+    }
+    // Start Measurement
+    error = scd4x.startPeriodicMeasurement();
+    if (error) {
+        Serial.print("Error trying to execute startPeriodicMeasurement(): ");
+        errorToString(error, errorMessage, 256);
+        Serial.println(errorMessage);
+    }
+    Serial.println("Waiting for first measurement... (5 sec)");
+}
+
+void loop()
+{
+  radarLoop();   
+  scd4xLoop();
+  EspNowLoop();
 }
