@@ -9,7 +9,7 @@
 
 void FallDetection_60GHz::SerialInit(){
   //Serial1.begin(115200);
-  Serial2.begin(115200,SERIAL_8N1,RXD2,TXD2)
+  Serial2.begin(115200,SERIAL_8N1,RXD2,TXD2);
 }
 
 // Receive data and process

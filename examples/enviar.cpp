@@ -34,6 +34,7 @@ typedef struct struct_message {
     int id; // must be unique for each sender board
     int x;
     int y;
+    int z;
 } struct_message;
 
 // Create a struct_message called myData
@@ -73,8 +74,11 @@ void EspNowInit() {
 void  EspNowLoop() {
 // Set values to send
   myData.id = 1;
-  myData.x = random(0,50);
-  myData.y = random(0,50);
+  //myData.x = random(0,50);
+  //myData.y = random(0,50);
+  myData.x;
+  myData.y;
+  myData.z;
   // Send message via ESP-NOW
   esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
   if (result == ESP_OK) {
@@ -170,6 +174,9 @@ void scd4xLoop() {
         Serial.print("\t");
         Serial.print("Humidity:");
         Serial.println(humidity);
+        myData.x = co2;
+        myData.y = humidity;
+        myData.z = temperature;
     }
 }
 
