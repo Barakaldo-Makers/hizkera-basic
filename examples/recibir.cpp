@@ -166,6 +166,7 @@ void scd4xLoop() {
         Serial.print("\t");
         Serial.print("Humidity:");
         Serial.println(humidity);
+        Serial.println();
     }
 }
 

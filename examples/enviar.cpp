@@ -174,6 +174,7 @@ void scd4xLoop() {
         Serial.print("\t");
         Serial.print("Humidity:");
         Serial.println(humidity);
+        Serial.println();
         myData.x = co2;
         myData.y = humidity;
         myData.z = temperature;
