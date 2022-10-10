@@ -1,12 +1,12 @@
 #include "Arduino.h"
 #include "60ghzfalldetection.h"
-
+/*
 #ifdef __AVR__
     #include <SoftwareSerial.h>
     SoftwareSerial SSerial(2, 3); // RX, TX
     #define Serial1 SSerial
 #endif
-
+*/
 void FallDetection_60GHz::SerialInit(){
   //Serial1.begin(115200);
   Serial2.begin(115200,SERIAL_8N1,RXD2,TXD2);
@@ -19,9 +19,9 @@ void FallDetection_60GHz::recvRadarBytes(){
   byte startMarker = MESSAGE_HEAD;            //Header frame
   byte endMarker = MESSAGE_TAIL;
   byte rb; // Each frame received
-  while (Serial1.available() > 0 && newData == false)
+  while (Serial2.available() > 0 && newData == false)
   {
-    rb = Serial1.read();
+    rb = Serial2.read();
     if (recvInProgress == true)
     {                     // Received header frame
       if (rb != endMarker){ // Length in range
