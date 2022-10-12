@@ -8,7 +8,7 @@
 #endif
 */
 void FallDetection_60GHz::SerialInit(){
-  //Serial1.begin(115200);
+  //Serial1.begin(115200); BRKM Hemos cambiado el serial por incompatibilidad con placa Lora 
   Serial2.begin(115200,SERIAL_8N1,RXD2,TXD2);
 }
 
