@@ -1,13 +1,17 @@
 #include <Arduino.h>
+#include <SoftwareSerial.h>
 #include <60ghzfalldetection.h>
 #include <SensirionI2CScd4x.h>
 #include <Wire.h>
+
+SoftwareSerial SSerial(18, 19); // RX, TX
+#define Serial1 SSerial
 
 FallDetection_60GHz radar;
 
 void radarInit() {
     radar.SerialInit();
-}
+    }
 
 void radarLoop() {
     radar.recvRadarBytes();                       //Receive radar data and start processing
