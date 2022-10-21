@@ -4,10 +4,6 @@
 #include <Wire.h>
 #include <esp_now.h>
 #include <WiFi.h>
-#include <SoftwareSerial.h>
-
-SoftwareSerial SSerial(32, 33); // RX, TX tambien es posible 25-26
- #define Serial1 SSerial
  
 FallDetection_60GHz radar;
 
@@ -57,8 +53,10 @@ void OnDataRecv(const uint8_t * mac_addr, const uint8_t *incomingData, int len) 
   // Update the structures with the new incoming data
   boardsStruct[myData.id-1].x = myData.x;
   boardsStruct[myData.id-1].y = myData.y;
+  boardsStruct[myData.id-1].z = myData.z;
   Serial.printf("x value: %d \n", boardsStruct[myData.id-1].x);
   Serial.printf("y value: %d \n", boardsStruct[myData.id-1].y);
+  Serial.printf("z value: %d \n", boardsStruct[myData.id-1].z);
   Serial.println();
 }
 
@@ -105,7 +103,7 @@ void radarLoop() {
     dataMsg[radar.dataLen+2] = 0x43;
     radar.newData = false;                     //A complete set of data frames is saved
     
-    //radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
+    radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
     radar.Fall_Detection(dataMsg);         //Use radar built-in algorithm to output human motion status
   }
 }

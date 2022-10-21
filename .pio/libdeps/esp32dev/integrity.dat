@@ -1,4 +1,2 @@
 sensirion/Sensirion Core @ 0.5.3
 sensirion/Sensirion I2C SCD4x @ 0.3.1
-plerup/EspSoftwareSerial@^6.16.1
-https://github.com/limengdu/Seeed_60GHz_FallDetectionRadar.git
