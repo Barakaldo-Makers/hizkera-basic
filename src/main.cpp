@@ -129,7 +129,7 @@ void loop()
     dataMsg[radar.dataLen+2] = 0x43;
     radar.newData = false;                     //A complete set of data frames is saved
     
-    //radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
+    radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
     radar.Fall_Detection(dataMsg);         //Use radar built-in algorithm to output human motion status
   }
   

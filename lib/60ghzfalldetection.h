@@ -1,8 +1,8 @@
 #ifndef _RADAR_H__
 #define _RADAR_H__
 
-#define RXD2 23 //BRKM En el original es el PIN16, pero nos daba error con las placas Lora 
-#define TXD2 17
+#define RXD2 32 //BRKM En el original es el PIN16, pero nos daba error con las placas Lora 
+#define TXD2 33
 
 #define MESSAGE_HEAD 0x53       //Data frame header
 #define MESSAGE_TAIL 0x54       //Data frame tail
