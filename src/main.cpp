@@ -4,14 +4,14 @@
 #include <SensirionI2CScd4x.h>
 #include <Wire.h>
 
-SoftwareSerial SSerial(18, 19); // RX, TX
+SoftwareSerial SSerial(32, 33); // RX, TX
 #define Serial1 SSerial
 
 FallDetection_60GHz radar;
 
 void radarInit() {
     radar.SerialInit();
-    }
+}
 
 void radarLoop() {
     radar.recvRadarBytes();                       //Receive radar data and start processing
