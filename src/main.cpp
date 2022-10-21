@@ -4,7 +4,7 @@
 #include <SensirionI2CScd4x.h>
 #include <Wire.h>
 
-SoftwareSerial SSerial(32, 33); // RX, TX
+SoftwareSerial SSerial(32, 33); // RX, TX Tambien es posible usar 25-26
 #define Serial1 SSerial
 
 FallDetection_60GHz radar;
