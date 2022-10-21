@@ -35,6 +35,7 @@ typedef struct struct_message {
   int id;
   int x;
   int y;
+  int z;
 }struct_message;
 // Create a struct_message called myData
 struct_message myData;
@@ -79,10 +80,13 @@ void EspNowLoop() {
    // Acess the variables for each board
   int board1X = boardsStruct[0].x;
   int board1Y = boardsStruct[0].y;
+  int board1Z = boardsStruct[0].z;
   int board2X = boardsStruct[1].x;
   int board2Y = boardsStruct[1].y;
+  int board2Z = boardsStruct[1].z;
   int board3X = boardsStruct[2].x;
   int board3Y = boardsStruct[2].y;
+  int board3Z = boardsStruct[3].z;
 
   delay(10000);
 }
