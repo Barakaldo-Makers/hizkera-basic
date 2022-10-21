@@ -6,7 +6,7 @@
 #include <WiFi.h>
 #include <SoftwareSerial.h>
 
-SoftwareSerial SSerial(32, 33); // RX, TX
+SoftwareSerial SSerial(32, 33); // RX, TX tambien es posible 25-26
  #define Serial1 SSerial
  
 FallDetection_60GHz radar;
