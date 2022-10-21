@@ -4,6 +4,10 @@
 #include <Wire.h>
 #include <esp_now.h>
 #include <WiFi.h>
+#include <SoftwareSerial.h>
+
+SoftwareSerial SSerial(32, 33); // RX, TX
+ #define Serial1 SSerial
 
 FallDetection_60GHz radar;
 
