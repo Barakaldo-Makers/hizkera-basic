@@ -31,6 +31,7 @@ typedef struct struct_message {
   int id;
   int x;
   int y;
+  int z;
 }struct_message;
 // Create a struct_message called myData
 struct_message myData;
@@ -52,8 +53,10 @@ void OnDataRecv(const uint8_t * mac_addr, const uint8_t *incomingData, int len) 
   // Update the structures with the new incoming data
   boardsStruct[myData.id-1].x = myData.x;
   boardsStruct[myData.id-1].y = myData.y;
+  boardsStruct[myData.id-1].z = myData.z;
   Serial.printf("x value: %d \n", boardsStruct[myData.id-1].x);
   Serial.printf("y value: %d \n", boardsStruct[myData.id-1].y);
+  Serial.printf("z value: %d \n", boardsStruct[myData.id-1].z);
   Serial.println();
 }
 
@@ -75,12 +78,14 @@ void EspNowLoop() {
    // Acess the variables for each board
   int board1X = boardsStruct[0].x;
   int board1Y = boardsStruct[0].y;
+  int board1Z = boardsStruct[0].z;
   int board2X = boardsStruct[1].x;
   int board2Y = boardsStruct[1].y;
+  int board2Z = boardsStruct[1].z;
   int board3X = boardsStruct[2].x;
   int board3Y = boardsStruct[2].y;
-
-  delay(10000);
+  int board3Z = boardsStruct[2].z;
+  delay(5000);
 }
 
 void radarInit() {
@@ -97,7 +102,7 @@ void radarLoop() {
     dataMsg[radar.dataLen+2] = 0x43;
     radar.newData = false;                     //A complete set of data frames is saved
     
-    //radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
+    radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
     radar.Fall_Detection(dataMsg);         //Use radar built-in algorithm to output human motion status
   }
 }
@@ -167,6 +172,10 @@ void scd4xLoop() {
         Serial.print("Humidity:");
         Serial.println(humidity);
         Serial.println();
+        myData.x = co2;
+        myData.y = temperature;
+        myData.z = humidity;
+        
     }
 }
 

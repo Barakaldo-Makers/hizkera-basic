@@ -87,7 +87,7 @@ void  EspNowLoop() {
   else {
     Serial.println("Error sending the data");
   }
-  delay(10000);
+  delay(5000);
 
 }
 
@@ -105,7 +105,7 @@ void radarLoop() {
     dataMsg[radar.dataLen+2] = 0x43;
     radar.newData = false;                     //A complete set of data frames is saved
     
-    //radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
+    radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
     radar.Fall_Detection(dataMsg);         //Use radar built-in algorithm to output human motion status
   }
 }
