@@ -1,6 +1,6 @@
 #include "Arduino.h"
 #include "60ghzfalldetection.h"
-#include <hardwareSerial.h>
+#include <HardwareSerial.h>
 
 HardwareSerial SerialPort(2); // use UART2
 
