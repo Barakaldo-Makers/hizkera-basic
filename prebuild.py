@@ -35,7 +35,7 @@ env.Append(BUILD_FLAGS=[
     u'-DREVISION=' + revision + '',
     u'-DVERSION=\\"' + version + '\\"',
     u'-DFLAVOR=\\"' + flavor + '\\"',
-    #u'-DTARGET=\\"' + target + '\\"',
+    u'-DTARGET=\\"' + target + '\\"',
     u'-D'+ flavor + '=1',
     u'-I \"' + srcdir + '\"'
     ])
