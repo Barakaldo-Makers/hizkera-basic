@@ -4,7 +4,7 @@
 #include <Wire.h>
 #include <esp_now.h>
 #include <WiFi.h>
-
+ 
 FallDetection_60GHz radar;
 
 SensirionI2CScd4x scd4x;
@@ -84,8 +84,14 @@ void EspNowLoop() {
   int board2Z = boardsStruct[1].z;
   int board3X = boardsStruct[2].x;
   int board3Y = boardsStruct[2].y;
+<<<<<<< HEAD
   int board3Z = boardsStruct[2].z;
   delay(5000);
+=======
+  int board3Z = boardsStruct[3].z;
+
+  delay(10000);
+>>>>>>> 82178650f71b4f95f84afa4345cc77e917b3b4ad
 }
 
 void radarInit() {

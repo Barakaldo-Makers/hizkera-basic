@@ -4,7 +4,7 @@
 #include <Wire.h>
 #include <esp_now.h>
 #include <WiFi.h>
-
+ 
 FallDetection_60GHz radar;
 
 SensirionI2CScd4x scd4x;
@@ -31,6 +31,7 @@ uint8_t broadcastAddress[] = {0xC8, 0xC9, 0xA3, 0xFB, 0xED, 0xE0};
 // Structure example to send data
 // Must match the receiver structure
 typedef struct struct_message {
+<<<<<<< HEAD
     int id; // must be unique for each sender board
     int x;
     int y;
@@ -47,16 +48,53 @@ esp_now_peer_info_t peerInfo;
 void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
   Serial.print("\r\nLast Packet Send Status:\t");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+=======
+  int id;
+  int x;
+  int y;
+  int z;
+}struct_message;
+// Create a struct_message called myData
+struct_message myData;
+// Create a structure to hold the readings from each board
+struct_message board1;
+struct_message board2;
+struct_message board3;
+// Create an array with all the structures
+struct_message boardsStruct[3] = {board1, board2, board3};
+// callback function that will be executed when data is received
+void OnDataRecv(const uint8_t * mac_addr, const uint8_t *incomingData, int len) {
+  char macStr[18];
+  Serial.print("Packet received from: ");
+  snprintf(macStr, sizeof(macStr), "%02x:%02x:%02x:%02x:%02x:%02x",
+           mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
+  Serial.println(macStr);
+  memcpy(&myData, incomingData, sizeof(myData));
+  Serial.printf("Board ID %u: %u bytes\n", myData.id, len);
+  // Update the structures with the new incoming data
+  boardsStruct[myData.id-1].x = myData.x;
+  boardsStruct[myData.id-1].y = myData.y;
+  boardsStruct[myData.id-1].z = myData.z;
+  Serial.printf("x value: %d \n", boardsStruct[myData.id-1].x);
+  Serial.printf("y value: %d \n", boardsStruct[myData.id-1].y);
+  Serial.printf("z value: %d \n", boardsStruct[myData.id-1].z);
+  Serial.println();
+>>>>>>> 82178650f71b4f95f84afa4345cc77e917b3b4ad
 }
 
 void EspNowInit() {
   // Set device as a Wi-Fi Station
   WiFi.mode(WIFI_STA);
+<<<<<<< HEAD
+=======
+  Serial.println(WiFi.macAddress());
+>>>>>>> 82178650f71b4f95f84afa4345cc77e917b3b4ad
   // Init ESP-NOW
   if (esp_now_init() != ESP_OK) {
     Serial.println("Error initializing ESP-NOW");
     return;
   }
+<<<<<<< HEAD
 // Once ESPNow is successfully Init, we will register for Send CB to
   // get the status of Trasnmitted packet
   esp_now_register_send_cb(OnDataSent);
@@ -95,6 +133,32 @@ void radarInit() {
     radar.SerialInit();
 }
 
+=======
+  // Once ESPNow is successfully Init, we will register for recv CB to
+  // get recv packer info
+    esp_now_register_recv_cb(OnDataRecv);
+}
+
+void EspNowLoop() {
+   // Acess the variables for each board
+  int board1X = boardsStruct[0].x;
+  int board1Y = boardsStruct[0].y;
+  int board1Z = boardsStruct[0].z;
+  int board2X = boardsStruct[1].x;
+  int board2Y = boardsStruct[1].y;
+  int board2Z = boardsStruct[1].z;
+  int board3X = boardsStruct[2].x;
+  int board3Y = boardsStruct[2].y;
+  int board3Z = boardsStruct[3].z;
+
+  delay(10000);
+}
+
+void radarInit() {
+    radar.SerialInit();
+}
+
+>>>>>>> 82178650f71b4f95f84afa4345cc77e917b3b4ad
 void radarLoop() {
     radar.recvRadarBytes();                       //Receive radar data and start processing
         if (radar.newData == true) {                  //The data is received and transferred to the new list dataMsg[]
@@ -181,6 +245,7 @@ void scd4xLoop() {
     }
 }
 
+<<<<<<< HEAD
 void setup()
 {
   Serial.begin(115200);
@@ -194,6 +259,22 @@ void setup()
     uint16_t error;
     char errorMessage[256];
 
+=======
+
+void setup()
+{
+  Serial.begin(115200);
+  delay(1500);
+  Serial.println("Readly");
+  EspNowInit();
+  radarInit();
+  Wire.begin();
+  scd4xInit(); 
+  
+    uint16_t error;
+    char errorMessage[256];
+
+>>>>>>> 82178650f71b4f95f84afa4345cc77e917b3b4ad
     scd4x.begin(Wire);
 
     // stop potentially previously started measurement

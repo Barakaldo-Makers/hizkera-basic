@@ -202,7 +202,11 @@
                 "C:/Users/canario/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/fb_gfx/include",
                 "C:/Users/canario/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/dio_qspi/include",
                 "C:/Users/canario/.platformio/packages/framework-arduinoespressif32/cores/esp32",
+<<<<<<< HEAD
                 "C:/Users/canario/.platformio/packages/framework-arduinoespressif32/variants/ttgo-lora32-v1",
+=======
+                "C:/Users/canario/.platformio/packages/framework-arduinoespressif32/variants/esp32",
+>>>>>>> 82178650f71b4f95f84afa4345cc77e917b3b4ad
                 "c:/Users/canario/Documents/platformio/projects/hizkera-basic/.git",
                 "c:/Users/canario/Documents/platformio/projects/hizkera-basic/.pio",
                 "c:/Users/canario/Documents/platformio/projects/hizkera-basic/.vscode",
@@ -436,7 +440,11 @@
                     "C:/Users/canario/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/fb_gfx/include",
                     "C:/Users/canario/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/dio_qspi/include",
                     "C:/Users/canario/.platformio/packages/framework-arduinoespressif32/cores/esp32",
+<<<<<<< HEAD
                     "C:/Users/canario/.platformio/packages/framework-arduinoespressif32/variants/ttgo-lora32-v1",
+=======
+                    "C:/Users/canario/.platformio/packages/framework-arduinoespressif32/variants/esp32",
+>>>>>>> 82178650f71b4f95f84afa4345cc77e917b3b4ad
                     "c:/Users/canario/Documents/platformio/projects/hizkera-basic/.git",
                     "c:/Users/canario/Documents/platformio/projects/hizkera-basic/.pio",
                     "c:/Users/canario/Documents/platformio/projects/hizkera-basic/.vscode",
