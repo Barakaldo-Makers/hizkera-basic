@@ -1,12 +1,12 @@
 #include "Arduino.h"
 #include "60ghzfalldetection.h"
-#include <HardwareSerial.h>
+#include <hardwareSerial.h>
 
 HardwareSerial SerialPort(2); // use UART2
 
 void FallDetection_60GHz::SerialInit(){
   //Serial1.begin(115200);
-  SerialPort.begin(15200, SERIAL_8N1, 32, 33); 
+  SerialPort.begin(15200, SERIAL_8N1, RXD2, TXD2); 
 }
 
 // Receive data and process

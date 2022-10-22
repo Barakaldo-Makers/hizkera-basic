@@ -84,14 +84,8 @@ void EspNowLoop() {
   int board2Z = boardsStruct[1].z;
   int board3X = boardsStruct[2].x;
   int board3Y = boardsStruct[2].y;
-<<<<<<< HEAD
   int board3Z = boardsStruct[2].z;
   delay(5000);
-=======
-  int board3Z = boardsStruct[3].z;
-
-  delay(10000);
->>>>>>> 82178650f71b4f95f84afa4345cc77e917b3b4ad
 }
 
 void radarInit() {
@@ -148,7 +142,6 @@ void scd4xInit() {
     }
 
     Serial.println("Waiting for first measurement... (5 sec)");
-
 }
 
 void scd4xLoop() {
@@ -195,38 +188,6 @@ void setup()
   radarInit();
   Wire.begin();
   scd4xInit(); 
-  
-    uint16_t error;
-    char errorMessage[256];
-
-    scd4x.begin(Wire);
-
-    // stop potentially previously started measurement
-    error = scd4x.stopPeriodicMeasurement();
-    if (error) {
-        Serial.print("Error trying to execute stopPeriodicMeasurement(): ");
-        errorToString(error, errorMessage, 256);
-        Serial.println(errorMessage);
-    }
-    uint16_t serial0;
-    uint16_t serial1;
-    uint16_t serial2;
-    error = scd4x.getSerialNumber(serial0, serial1, serial2);
-    if (error) {
-        Serial.print("Error trying to execute getSerialNumber(): ");
-        errorToString(error, errorMessage, 256);
-        Serial.println(errorMessage);
-    } else {
-        printSerialNumber(serial0, serial1, serial2);
-    }
-    // Start Measurement
-    error = scd4x.startPeriodicMeasurement();
-    if (error) {
-        Serial.print("Error trying to execute startPeriodicMeasurement(): ");
-        errorToString(error, errorMessage, 256);
-        Serial.println(errorMessage);
-    }
-    Serial.println("Waiting for first measurement... (5 sec)");
 }
 
 void loop()
