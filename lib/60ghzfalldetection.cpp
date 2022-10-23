@@ -1,12 +1,8 @@
 #include "Arduino.h"
 #include "60ghzfalldetection.h"
-#include <HardwareSerial.h>
-
-HardwareSerial SerialPort(2); // use UART2
 
 void FallDetection_60GHz::SerialInit(){
-  //Serial1.begin(115200);
-  SerialPort.begin(115200, SERIAL_8N1, RXD2, TXD2); 
+   Serial2.begin(115200, SERIAL_8N1, RXD2, TXD2); 
 }
 
 // Receive data and process
@@ -16,9 +12,9 @@ void FallDetection_60GHz::recvRadarBytes(){
   byte startMarker = MESSAGE_HEAD;            //Header frame
   byte endMarker = MESSAGE_TAIL;
   byte rb; // Each frame received
-  while (SerialPort.available() > 0 && newData == false)
+  while (Serial2.available() > 0 && newData == false)
   {
-    rb = SerialPort.read();
+    rb = Serial2.read();
     if (recvInProgress == true)
     {                     // Received header frame
       if (rb != endMarker){ // Length in range
