@@ -6,7 +6,7 @@ HardwareSerial SerialPort(2); // use UART2
 
 void FallDetection_60GHz::SerialInit(){
   //Serial1.begin(115200);
-  SerialPort.begin(15200, SERIAL_8N1, RXD2, TXD2); 
+  SerialPort.begin(115200, SERIAL_8N1, RXD2, TXD2); 
 }
 
 // Receive data and process
@@ -16,9 +16,9 @@ void FallDetection_60GHz::recvRadarBytes(){
   byte startMarker = MESSAGE_HEAD;            //Header frame
   byte endMarker = MESSAGE_TAIL;
   byte rb; // Each frame received
-  while (Serial1.available() > 0 && newData == false)
+  while (SerialPort.available() > 0 && newData == false)
   {
-    rb = Serial1.read();
+    rb = SerialPort.read();
     if (recvInProgress == true)
     {                     // Received header frame
       if (rb != endMarker){ // Length in range
