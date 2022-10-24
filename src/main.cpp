@@ -4,7 +4,7 @@
 #include <Wire.h>
 #include <esp_now.h>
 #include <WiFi.h>
- 
+
 FallDetection_60GHz radar;
 
 SensirionI2CScd4x scd4x;
@@ -104,6 +104,7 @@ void radarLoop() {
     
     radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
     radar.Fall_Detection(dataMsg);         //Use radar built-in algorithm to output human motion status
+    radar.Situation_judgment(dataMsg);       // Judgment of occupied and unoccupied, approach and distance
   }
 }
 
