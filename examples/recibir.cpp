@@ -4,7 +4,12 @@
 #include <Wire.h>
 #include <esp_now.h>
 #include <WiFi.h>
- 
+#include "soc/soc.h"
+#include "soc/rtc_cntl_reg.h"
+#include <lorawan.h>
+#include <functions.h>
+#include <settings.h>
+
 FallDetection_60GHz radar;
 
 SensirionI2CScd4x scd4x;
@@ -63,13 +68,12 @@ void OnDataRecv(const uint8_t * mac_addr, const uint8_t *incomingData, int len) 
 void EspNowInit() {
   // Set device as a Wi-Fi Station
   WiFi.mode(WIFI_STA);
-  Serial.println(WiFi.macAddress());
   // Init ESP-NOW
   if (esp_now_init() != ESP_OK) {
     Serial.println("Error initializing ESP-NOW");
     return;
   }
-  // Once ESPNow is successfully Init, we will register for recv CB to
+/// Once ESPNow is successfully Init, we will register for recv CB to
   // get recv packer info
     esp_now_register_recv_cb(OnDataRecv);
 }
@@ -142,6 +146,7 @@ void scd4xInit() {
     }
 
     Serial.println("Waiting for first measurement... (5 sec)");
+
 }
 
 void scd4xLoop() {
@@ -172,22 +177,35 @@ void scd4xLoop() {
         Serial.println(humidity);
         Serial.println();
         myData.x = co2;
-        myData.y = temperature;
-        myData.z = humidity;
-        
+        myData.y = humidity;
+        myData.z = temperature;
     }
 }
 
-
 void setup()
 {
-  Serial.begin(115200);
+ WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // Disable Brownout Detector
+    setCpuFrequencyMhz(80);
+    Serial.begin(115200);
+    Serial.println(F("Starting Hizkera system ..."));
+    //Serial.println("Sketch: " VERSION_MAJOR "." VERSION_MINOR "." VERSION_PATCH "." BUILD_COMMIT "-" BUILD_BRANCH);
+    //Serial.println("Builddate: " BUILD_DATE " " BUILD_TIME);
+    LoraWANPrintVersion();
+    PrintResetReason();
+
+    Serial.print("CPU Speed: ");
+    Serial.print(getCpuFrequencyMhz());
+    Serial.println(" MHz");
+
+
+  //Serial.begin(115200);
   delay(1500);
-  Serial.println("Readly");
+  Serial.println("Readly, sensors");
   EspNowInit();
   radarInit();
   Wire.begin();
   scd4xInit(); 
+  LoRaWANSetup();
 }
 
 void loop()
@@ -195,4 +213,5 @@ void loop()
   radarLoop();   
   scd4xLoop();
   EspNowLoop();
+  LoraWANDo();
 }
