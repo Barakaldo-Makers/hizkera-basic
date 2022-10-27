@@ -4,7 +4,11 @@
 #include <Wire.h>
 #include <esp_now.h>
 #include <WiFi.h>
-
+#include "soc/soc.h"
+#include "soc/rtc_cntl_reg.h"
+#include <lorawan.h>
+#include <functions.h>
+#include <settings.h>
 
 FallDetection_60GHz radar;
 
@@ -184,6 +188,20 @@ void scd4xLoop() {
 
 void setup()
 {
+ WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // Disable Brownout Detector
+    setCpuFrequencyMhz(80);
+    Serial.begin(115200);
+    Serial.println(F("Starting Hizkera sensor ..."));
+    //Serial.println("Sketch: " VERSION_MAJOR "." VERSION_MINOR "." VERSION_PATCH "." BUILD_COMMIT "-" BUILD_BRANCH);
+    //Serial.println("Builddate: " BUILD_DATE " " BUILD_TIME);
+    LoraWANPrintVersion();
+    PrintResetReason();
+
+    Serial.print("CPU Speed: ");
+    Serial.print(getCpuFrequencyMhz());
+    Serial.println(" MHz");
+
+
   Serial.begin(115200);
   delay(1500);
   Serial.println("Readly");
@@ -191,6 +209,7 @@ void setup()
   radarInit();
   Wire.begin();
   scd4xInit(); 
+  LoRaWANSetup();
 }
 
 void loop()
@@ -198,4 +217,5 @@ void loop()
   radarLoop();   
   scd4xLoop();
   EspNowLoop();
+  LoraWANDo();
 }

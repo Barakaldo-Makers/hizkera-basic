@@ -63,7 +63,7 @@ void PrintResetReason()
 
 void SetupPins()
 {
-  pinMode(PIN_ENABLE_SD011, OUTPUT);
+  //pinMode(PIN_ENABLE_SD011, OUTPUT);
   pinMode(PIN_VBAT, INPUT);
 }
 

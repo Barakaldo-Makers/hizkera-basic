@@ -1,15 +1,11 @@
 #include "lorawan.h"
-//#include "settings.h"
+#include "settings.h"
 #include <hal/hal.h>
 #include <SPI.h>
 #include "io_pins.h"
 #include "functions.h"
-//#include <power.h>
-#include <particle.h>
-#include <global.h>
-#include <bme280.h>
-#include <veml6075.h>
-#include <tsl2591.h>
+
+
 
 // Pin mapping
 const lmic_pinmap lmic_pins = {
@@ -214,7 +210,7 @@ void LoraWANDo(void)
         LoraWANSaveLMICToRTC(LORA_TX_INTERVAL);
         Serial.flush();
 
-        PowerDeepSleepTimer(LORA_TX_INTERVAL - 30 - 8); // 30sec for SDS011, 8 sec for remaining code 
+        //PowerDeepSleepTimer(LORA_TX_INTERVAL - 30 - 8); // 30sec for SDS011, 8 sec for remaining code 
     }
     else
     {
@@ -257,32 +253,32 @@ void LoraWANGetData()
     uint32_t tmp_u32;
     float tmp_float;
 
-    // VCC
+   // VCC
     /**************************************************************************/
-    tmp_u8 = (ReadVBat() / 10) - 200;
-    LORA_DATA[0] = tmp_u8;
-
+   // tmp_u8 = (ReadVBat() / 10) - 200;
+   // LORA_DATA[0] = tmp_u8;
+    LORA_DATA[0] = 255;  
     // PM25
     /**************************************************************************/
-    tmp_u16 = (PM25 * 10);
-    if (isnan(PM25))
+   // tmp_u16 = (PM25 * 10);
+    //if (isnan(PM25))
     {
         LORA_DATA[1] = 255;
         LORA_DATA[2] = 255;
     }
-    else
+   /* else
     {
         LORA_DATA[1] = tmp_u16 >> 8;
         LORA_DATA[2] = tmp_u16 & 0xFF;
     }
-
+*/
     // PM10
-    /**************************************************************************/
+    /**************************************************************************
     tmp_u16 = (PM10 * 10);
-    if (isnan(PM10))
+    if (isnan(PM10)) */
     {
         LORA_DATA[3] = 255;
-        LORA_DATA[4] = 255;
+        LORA_DATA[4] = 255; /*
     }
     else
     {
@@ -291,15 +287,16 @@ void LoraWANGetData()
     }
 
     if(I2CCheckAddress(0x76))
-    {
+    { */
         // Temperature
-        /**************************************************************************/
+        /**************************************************************************
         tmp_u16 = (BME280ReadTemperature() * 10);
         LORA_DATA[5] = tmp_u16 >> 8;
         LORA_DATA[6] = tmp_u16 & 0xFF;
-
+        LORA_DATA[5] = 255;
+        LORA_DATA[6] = 255;
         // Humidity
-        /**************************************************************************/
+        /**************************************************************************
         tmp_float = BME280ReadHumidity();
         tmp_u8 = tmp_float;
         LORA_DATA[7] = tmp_u8;
@@ -314,7 +311,7 @@ void LoraWANGetData()
         }
 
         // Pressure
-        /**************************************************************************/
+        /**************************************************************************
         tmp_float = BME280ReadPressure();
         tmp_u32 = (tmp_float * 100);
         LORA_DATA[8] = (tmp_u32 >> (8 * 0)) & 0xff;
@@ -322,14 +319,14 @@ void LoraWANGetData()
         LORA_DATA[10] = (tmp_u32 >> (8 * 2)) & 0xff;
     }
     else
-    {
+    {  */
         LORA_DATA[5] = 255;
         LORA_DATA[6] = 255;
         LORA_DATA[7] = 255;
         LORA_DATA[8] = 255;
         LORA_DATA[9] = 255;
     }
-
+/*
     // UV Index
     if(I2CCheckAddress(0x10))
     {
@@ -337,11 +334,11 @@ void LoraWANGetData()
         tmp_u8 = (tmp_float * 10);
         LORA_DATA[11] = tmp_u8;
     }
-    else
+    else */
     {
         LORA_DATA[11] = 255;
     }
-
+/*
     // Lux
     if (I2CCheckAddress(0x29))
     {
@@ -357,12 +354,13 @@ void LoraWANGetData()
         LORA_DATA[13] = (tmp_u32 >> (8 * 1)) & 0xff;
         LORA_DATA[14] = (tmp_u32 >> (8 * 2)) & 0xff;
     }
-    else
+    else */
     {
         LORA_DATA[12] = 255;
         LORA_DATA[13] = 255;
         LORA_DATA[14] = 255;
-    }
+    } 
+   
 }
 
 void LoraWANSaveLMICToRTC(int deepsleep_sec)
