@@ -9,10 +9,43 @@
 #include <lorawan.h>
 #include <functions.h>
 #include <settings.h>
+#include "RunningAverage.h"
 
 FallDetection_60GHz radar;
 
 SensirionI2CScd4x scd4x;
+
+RunningAverage RAC(10);
+int samples = 0;
+
+void bufferInit(void) {
+  Serial.println(__FILE__);
+  Serial.print("Version: ");
+  Serial.println(RUNNINGAVERAGE_LIB_VERSION);
+  // explicitly start clean
+  RAC.clear(); 
+}
+/*
+void bufferLoop() {
+  //  function  sensors
+
+  RAC.addValue(co2);
+  
+  
+ 
+  samples++;
+
+  Serial.print(samples);
+  Serial.print('\t');
+  Serial.print(myData.x, 1);
+  Serial.print('\t');
+  Serial.print(RAC.getAverage(), 2);
+  Serial.print('\t');
+  Serial.println(myData.x);
+
+  delay(500);
+} */
+
 
 void printUint16Hex(uint16_t value) {
     Serial.print(value < 4096 ? "0" : "");
@@ -179,6 +212,18 @@ void scd4xLoop() {
         myData.x = co2;
         myData.y = humidity;
         myData.z = temperature;
+
+          RAC.addValue(co2);
+          samples++;
+          Serial.print(samples);
+          Serial.print('\t');
+          Serial.print(co2, 1);
+          Serial.print('\t');
+          Serial.print(RAC.getAverage(), 2);
+          Serial.print('\t');
+          Serial.println();
+
+  delay(500);
     }
 }
 
@@ -203,6 +248,7 @@ void setup()
   Serial.println("Readly, sensors");
   EspNowInit();
   radarInit();
+  bufferInit();
   Wire.begin();
   scd4xInit(); 
   LoRaWANSetup();
@@ -214,4 +260,5 @@ void loop()
   scd4xLoop();
   EspNowLoop();
   LoraWANDo();
+  //bufferLoop();
 }
