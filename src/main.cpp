@@ -260,5 +260,4 @@ void loop()
   scd4xLoop();
   EspNowLoop();
   LoraWANDo();
-  //bufferLoop();
 }
