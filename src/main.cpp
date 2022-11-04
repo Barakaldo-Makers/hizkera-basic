@@ -17,6 +17,7 @@ SensirionI2CScd4x scd4x;
 
 RunningAverage RAC(10);
 int samples = 0;
+int oldavgco2 = 0;
 
 void bufferInit(void) {
   Serial.println(__FILE__);
@@ -25,27 +26,6 @@ void bufferInit(void) {
   // explicitly start clean
   RAC.clear(); 
 }
-/*
-void bufferLoop() {
-  //  function  sensors
-
-  RAC.addValue(co2);
-  
-  
- 
-  samples++;
-
-  Serial.print(samples);
-  Serial.print('\t');
-  Serial.print(myData.x, 1);
-  Serial.print('\t');
-  Serial.print(RAC.getAverage(), 2);
-  Serial.print('\t');
-  Serial.println(myData.x);
-
-  delay(500);
-} */
-
 
 void printUint16Hex(uint16_t value) {
     Serial.print(value < 4096 ? "0" : "");
@@ -141,6 +121,8 @@ void radarLoop() {
     
     radar.ShowData(dataMsg);                 //Serial port prints a set of received data frames
     radar.Fall_Detection(dataMsg);         //Use radar built-in algorithm to output human motion status
+    radar.Situation_judgment(dataMsg);  //**************
+  
   }
 }
 
@@ -219,10 +201,16 @@ void scd4xLoop() {
           Serial.print('\t');
           Serial.print(co2, 1);
           Serial.print('\t');
-          Serial.print(RAC.getAverage(), 2);
-          Serial.print('\t');
+          //Serial.print(RAC.getAverage());
+          //Serial.print('\t');
           Serial.println();
-
+            if (samples == 10)
+               {
+                Serial.print(RAC.getAverage(),1);
+                oldavgco2 = RAC.getAverage();
+                samples = 0;
+                RAC.clear();
+               }
   delay(500);
     }
 }
@@ -230,11 +218,10 @@ void scd4xLoop() {
 void setup()
 {
  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0); // Disable Brownout Detector
-    setCpuFrequencyMhz(80);
+    //setCpuFrequencyMhz(80);
     Serial.begin(115200);
     Serial.println(F("Starting Hizkera system ..."));
-    //Serial.println("Sketch: " VERSION_MAJOR "." VERSION_MINOR "." VERSION_PATCH "." BUILD_COMMIT "-" BUILD_BRANCH);
-    //Serial.println("Builddate: " BUILD_DATE " " BUILD_TIME);
+    
     LoraWANPrintVersion();
     PrintResetReason();
 
