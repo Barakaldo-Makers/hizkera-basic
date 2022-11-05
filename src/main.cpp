@@ -202,11 +202,12 @@ void scd4xLoop() {
           Serial.print(co2, 1);
           Serial.print('\t');
           //Serial.print(RAC.getAverage());
-          //Serial.print('\t');
-          Serial.println();
+          Serial.print('\t');
+          //Serial.println();
             if (samples == 10)
                {
                 Serial.print(RAC.getAverage(),1);
+                Serial.println();
                 oldavgco2 = RAC.getAverage();
                 samples = 0;
                 RAC.clear();
