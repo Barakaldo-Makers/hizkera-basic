@@ -203,7 +203,7 @@ void scd4xLoop() {
           Serial.print('\t');
           //Serial.print(RAC.getAverage());
           Serial.print('\t');
-          //Serial.println();
+          Serial.println();
             if (samples == 10)
                {
                 Serial.print(RAC.getAverage(),1);
