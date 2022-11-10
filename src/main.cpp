@@ -16,6 +16,7 @@ FallDetection_60GHz radar;
 SensirionI2CScd4x scd4x;
 
 RunningAverage RAC(10);
+RunningAverage RAOC(100);
 int samples = 0;
 int oldavgco2 = 0;
 
@@ -209,6 +210,8 @@ void scd4xLoop() {
                 Serial.print(RAC.getAverage(),1);
                 Serial.println();
                 oldavgco2 = RAC.getAverage();
+                RAOC.addValue(RAC.getAverage());
+                Serial.println(RAOC.getAverage());
                 samples = 0;
                 RAC.clear();
                }
