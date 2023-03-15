@@ -12,31 +12,31 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "c:/Users/canario/Documents/platformio/projects/hizkera-basic/.pio/build/TTGOLORA32V1/firmware.elf",
+            "executable": "d:/PI.T.Knowledge/IDI&AYUDAS/PREMIOS/2022_Barakaldo/LORA/BRKMK HIZKERA/radar_silvia_v0/hizkera-basic/.pio/build/TTGOLORA32V1/firmware.elf",
             "projectEnvName": "TTGOLORA32V1",
-            "toolchainBinDir": "C:/Users/canario/.platformio/packages/toolchain-xtensa-esp32/bin",
+            "toolchainBinDir": "C:/Users/isotopa/.platformio/packages/toolchain-xtensa-esp32/bin",
             "internalConsoleOptions": "openOnSessionStart",
             "preLaunchTask": {
                 "type": "PlatformIO",
-                "task": "Pre-Debug (TTGOLORA32V1)"
+                "task": "Pre-Debug"
             }
         },
         {
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "c:/Users/canario/Documents/platformio/projects/hizkera-basic/.pio/build/TTGOLORA32V1/firmware.elf",
+            "executable": "d:/PI.T.Knowledge/IDI&AYUDAS/PREMIOS/2022_Barakaldo/LORA/BRKMK HIZKERA/radar_silvia_v0/hizkera-basic/.pio/build/TTGOLORA32V1/firmware.elf",
             "projectEnvName": "TTGOLORA32V1",
-            "toolchainBinDir": "C:/Users/canario/.platformio/packages/toolchain-xtensa-esp32/bin",
+            "toolchainBinDir": "C:/Users/isotopa/.platformio/packages/toolchain-xtensa-esp32/bin",
             "internalConsoleOptions": "openOnSessionStart"
         },
         {
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (without uploading)",
-            "executable": "c:/Users/canario/Documents/platformio/projects/hizkera-basic/.pio/build/TTGOLORA32V1/firmware.elf",
+            "executable": "d:/PI.T.Knowledge/IDI&AYUDAS/PREMIOS/2022_Barakaldo/LORA/BRKMK HIZKERA/radar_silvia_v0/hizkera-basic/.pio/build/TTGOLORA32V1/firmware.elf",
             "projectEnvName": "TTGOLORA32V1",
-            "toolchainBinDir": "C:/Users/canario/.platformio/packages/toolchain-xtensa-esp32/bin",
+            "toolchainBinDir": "C:/Users/isotopa/.platformio/packages/toolchain-xtensa-esp32/bin",
             "internalConsoleOptions": "openOnSessionStart",
             "loadMode": "manual"
         }

@@ -6,7 +6,6 @@
 #include <WiFi.h>
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
-#include <lorawan.h>
 #include <functions.h>
 #include <settings.h>
 
@@ -205,7 +204,6 @@ void setup()
   radarInit();
   Wire.begin();
   scd4xInit(); 
-  LoRaWANSetup();
 }
 
 void loop()
@@ -213,5 +211,4 @@ void loop()
   radarLoop();   
   scd4xLoop();
   EspNowLoop();
-  LoraWANDo();
 }
