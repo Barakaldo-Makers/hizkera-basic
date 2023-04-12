@@ -315,8 +315,7 @@ radar.recvRadarBytes();                       //Receive radar data and start pro
     radar.Fall_Detection(dataMsg);         //Use radar built-in algorithm to output human motion status
     radar.Situation_judgment(dataMsg);  //**************
 
-        if (FALL_DETECTION = true){
-
+        if (FALLING ){
             int16_t estado = (int16_t)(caidita);
             data[6] = estado >> 8;
 	        data[7] = estado & 0xFF;
